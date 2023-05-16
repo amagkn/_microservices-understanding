@@ -11,6 +11,8 @@ const posts = {};
 app.post("/events", (req, res) => {
   const { type, data } = req.body;
 
+  console.log("Query service: received event", type);
+
   if (type === "PostCreated") {
     const { id, title } = data;
 
@@ -18,9 +20,18 @@ app.post("/events", (req, res) => {
   }
 
   if (type === "CommentCreated") {
-    const { id, content, postId } = data;
+    const { id, content, postId, status } = data;
 
-    posts[postId].comments.push({ id, content });
+    posts[postId].comments.push({ id, content, status });
+  }
+
+  if (type === "CommentUpdated") {
+    const { id, content, postId, status } = data;
+
+    const comment = posts[postId].comments.find((c) => id === c.id);
+
+    comment.status = status;
+    comment.content = content;
   }
 
   res.sendStatus(200);

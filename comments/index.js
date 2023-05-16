@@ -24,15 +24,17 @@ app.post("/posts/:id/comments", async (req, res) => {
 
   commentsByPostId[req.params.id] = comments;
 
-  await axios.post("http://localhost:4005/events", {
-    type: "CommentCreated",
-    data: {
-      id: commentId,
-      content,
-      postId: req.params.id,
-      status: "pending",
-    },
-  });
+  await axios
+    .post("http://localhost:4005/events", {
+      type: "CommentCreated",
+      data: {
+        id: commentId,
+        content,
+        postId: req.params.id,
+        status: "pending",
+      },
+    })
+    .catch((e) => console.error(e));
 
   res.status(201).json(comments);
 });
@@ -49,15 +51,17 @@ app.post("/events", async (req, res) => {
 
     comment.status = data.status;
 
-    await axios.post("http://localhost:4005/events", {
-      type: "CommentUpdated",
-      data: {
-        id: data.id,
-        content: data.content,
-        postId: data.postId,
-        status: data.status,
-      },
-    });
+    await axios
+      .post("http://localhost:4005/events", {
+        type: "CommentUpdated",
+        data: {
+          id: data.id,
+          content: data.content,
+          postId: data.postId,
+          status: data.status,
+        },
+      })
+      .catch((e) => console.error(e));
   }
 
   res.sendStatus(200);

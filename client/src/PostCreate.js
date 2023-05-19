@@ -7,7 +7,7 @@ export default () => {
     e.preventDefault();
 
     if (title) {
-      await fetch("http://localhost:4000/posts", {
+      await fetch("http://posts.com/posts/create", {
         headers: {
           "Content-Type": "application/json",
         },

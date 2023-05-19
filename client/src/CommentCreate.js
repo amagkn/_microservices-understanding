@@ -7,7 +7,7 @@ export default ({ postId }) => {
     e.preventDefault();
 
     if (content) {
-      fetch(`http://localhost:4001/posts/${postId}/comments`, {
+      fetch(`http://posts.com/posts/${postId}/comments`, {
         headers: {
           "Content-Type": "application/json",
         },
